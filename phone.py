@@ -18,8 +18,9 @@ import pandas as pd
 import numpy as np
 
 matplotlib.rcParams['font.family'] = ['DengXian', 'sans-serif']
-
-#%% 数据准备
+matplotlib.rcParams['axes.unicode_minus'] = False
+plt.ion()
+#%%1.数据准备
 """markdown
 基础图表1 - 长宽比例图
 
@@ -32,7 +33,9 @@ matplotlib.rcParams['font.family'] = ['DengXian', 'sans-serif']
 """
 fn = r'D:\notebooks\data_visualization_notebooks\phone_data2.csv'
 df = pd.read_csv(fn).iloc[0:15]
+row, col = df.shape
 c = df['CPU'].astype('category')
+ec = list(enumerate(c.cat.categories))
 
 ppi = np.sqrt(df['分辨率宽']**2 + df['分辨率长']**2) / (df['屏'] * 25.4)
 
@@ -45,7 +48,7 @@ y2 = df['分辨率长'] / ppi
 px = list(zip([0]*15, x2, x1))
 py = list(zip([0]*15, y2, y1))
 
-#%% 
+#%%2.尺寸图
 fig = plt.figure(figsize=(5,5))
 
 ax = fig.add_subplot(121)
@@ -67,3 +70,26 @@ axins.set_xlim(65, 80)
 axins.set_ylim(145, 165)
 
 mark_inset(ax, axins, loc1=2, loc2=2, fc="none", ec="0.5")
+
+#%%3.
+"""
+横坐标怎样添加偏置？
+
+heft  重量
+"""
+fig2, ax2 = plt.subplots(figsize=(3,5))
+
+heft_df = df.sort_values(by = '重')
+heft_df.index = np.arange(row)
+
+for n, r in ec:
+    tdf = heft_df[heft_df['CPU'] == r]
+    ax2.barh(tdf.index, tdf['重'] - 180, 
+                    color='C%d' % n,
+                    height=0.7
+                   )
+
+ax2.set_yticks(heft_df.index.values)
+ax2.set_yticklabels(heft_df['name'])
+ax2.set_xticklabels(['140','160','180','200','220'])
+
