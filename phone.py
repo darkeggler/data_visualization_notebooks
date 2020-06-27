@@ -6,6 +6,10 @@ Spyder Editor
 
 问题列表：
 %matplotlib widget在这里如何使用？或者说Spyder中如何便利的使用matplotlib
+
+1. 长度
+
+
 """
 
 # Part I. 基础图表
@@ -19,7 +23,7 @@ import numpy as np
 
 matplotlib.rcParams['font.family'] = ['DengXian', 'sans-serif']
 matplotlib.rcParams['axes.unicode_minus'] = False
-plt.ion()
+
 #%%1.数据准备
 """markdown
 基础图表1 - 长宽比例图
@@ -31,7 +35,7 @@ plt.ion()
 计算对角线的像素数除以对角线长度算出PPI，之后计算屏幕长与宽。
 
 """
-fn = r'D:\notebooks\data_visualization_notebooks\phone_data2.csv'
+fn = r'E:\notebooks\data_visualization_notebooks\phone_data2.csv'
 df = pd.read_csv(fn).iloc[0:15]
 row, col = df.shape
 c = df['CPU'].astype('category')
@@ -48,7 +52,7 @@ y2 = df['分辨率长'] / ppi
 px = list(zip([0]*15, x2, x1))
 py = list(zip([0]*15, y2, y1))
 
-#%%2.尺寸图
+#%%2.长宽折线图
 fig = plt.figure(figsize=(5,5))
 
 ax = fig.add_subplot(121)
